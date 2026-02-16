@@ -25,12 +25,3 @@ jobs:
     
     - name: Run tests
       run: ./mvnw -B test
-    
-    - name: Generate test report
-      if: always()
-      uses: dorny/test-reporter@v1
-      with:
-        name: Test Results
-        path: target/surefire-reports/*.xml
-        reporter: java-junit
-        fail-on-error: true
