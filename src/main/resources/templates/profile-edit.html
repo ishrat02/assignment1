@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Profile</title>
+</head>
+<body>
+
+<h2>Edit Profile</h2>
+
+<form th:action="@{/profile/update}" th:object="${student}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" /><br/><br/>
+
+    <label>Roll:</label>
+    <input type="text" th:field="*{roll}" /><br/><br/>
+
+    <label>Department:</label>
+    <select th:field="*{deptId}">
+        <option value="">Select Department</option>
+        <option th:each="dept : ${departments}" th:value="${dept.id}" th:text="${dept.name}"></option>
+    </select><br/><br/>
+
+    <label>Courses:</label>
+    <select th:field="*{courseIds}" multiple>
+        <option th:each="course : ${courses}" th:value="${course.id}"
+                th:text="${course.code + ' - ' + course.title}"></option>
+    </select><br/><br/>
+
+    <button type="submit">Save</button>
+    <a th:href="@{/profile}">Cancel</a>
+</form>
+
+</body>
+</html>

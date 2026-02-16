@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+</head>
+<body>
+<h1>My Profile</h1>
+
+<form th:action="@{/logout}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit">Logout</button>
+</form>
+
+<p>
+    <a th:href="@{/profile/edit}">Edit Profile</a>
+</p>
+
+<p><strong>Name:</strong> <span th:text="${student.name}"></span></p>
+<p><strong>Roll:</strong> <span th:text="${student.roll}"></span></p>
+<p><strong>Department:</strong> <span th:text="${student.dept != null ? student.dept.name : '—'}"></span></p>
+
+<h3>Courses</h3>
+<ul>
+    <li th:each="course : ${student.courses}">
+        <span th:text="${course.code + ' - ' + course.title}"></span>
+    </li>
+</ul>
+
+<h3>Add Course</h3>
+<form th:action="@{/profile/courses/add}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <select name="courseId">
+        <option value="">Select Course</option>
+        <option th:each="course : ${allCourses}" th:value="${course.id}"
+                th:text="${course.code + ' - ' + course.title}"></option>
+    </select>
+    <button type="submit">Add</button>
+</form>
+
+<form th:action="@{/profile/delete}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit">Delete My Account</button>
+</form>
+</body>
+</html>

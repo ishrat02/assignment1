@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+</head>
+<body>
+<h1>Courses</h1>
+
+<p>
+    <a th:href="@{/courses/add}">Add Course</a> |
+    <a th:href="@{/students}">Students</a>
+</p>
+
+<form th:action="@{/logout}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit">Logout</button>
+</form>
+
+<table border="1" cellpadding="6">
+    <thead>
+    <tr>
+        <th>Code</th>
+        <th>Title</th>
+        <th>Department</th>
+        <th>Teacher</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="course : ${courses}">
+        <td th:text="${course.code}"></td>
+        <td th:text="${course.title}"></td>
+        <td th:text="${course.dept != null ? course.dept.name : '—'}"></td>
+        <td th:text="${course.teacher != null ? course.teacher.name : '—'}"></td>
+        <td>
+            <a th:href="@{/courses/edit/{id}(id=${course.id})}">Edit</a>
+            <form th:action="@{/courses/delete/{id}(id=${course.id})}" method="post" style="display:inline;">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

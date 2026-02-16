@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Course Form</title>
+</head>
+<body>
+
+<h2 th:text="${editMode} ? 'Edit Course' : 'Add Course'"></h2>
+
+<form th:action="${editMode} ? @{/courses/update/{id}(id=${course.id})} : @{/courses}"
+      th:object="${course}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <label>Code:</label>
+    <input type="text" th:field="*{code}" /><br/><br/>
+
+    <label>Title:</label>
+    <input type="text" th:field="*{title}" /><br/><br/>
+
+    <label>Department:</label>
+    <select th:field="*{deptId}">
+        <option value="">Select Department</option>
+        <option th:each="dept : ${departments}" th:value="${dept.id}" th:text="${dept.name}"></option>
+    </select><br/><br/>
+
+    <label>Teacher:</label>
+    <select th:field="*{teacherId}">
+        <option value="">Select Teacher</option>
+        <option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:text="${teacher.name}"></option>
+    </select><br/><br/>
+
+    <button type="submit" th:text="${editMode} ? 'Update' : 'Create'"></button>
+    <a th:href="@{/courses}">Cancel</a>
+</form>
+
+</body>
+</html>
